@@ -1,0 +1,211 @@
+/* Custom CSS for Agricultural-based Food Website */
+
+/* Navigation Bar */
+.navbar {
+    background-color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #444444;
+    margin-right: 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Banner Section */
+.banner {
+    background-image: url("https://via.placeholder.com/1200x500");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    padding: 5rem 0;
+}
+
+.banner h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.banner p.lead {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 3rem;
+}
+
+.banner a.btn-primary {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 15rem;
+}
+
+/* Products Section */
+.products {
+    padding: 5rem 0;
+}
+
+.products h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.products .card {
+    margin-bottom: 2rem;
+}
+
+.products .card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.products .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.products .card-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.products .btn-primary {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Custom CSS for Footer */
+
+/* Footer Section */
+footer {
+    background-color: #f8f9fa;
+}
+
+footer h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+footer p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+footer a {
+    color: #007bff;
+}
+
+footer a:hover {
+    color: #0056b3;
+}
+
+/* Follow Us Buttons */
+footer .btn-outline-primary {
+    margin-right: 1rem;
+}
+
+footer .btn-lg i {
+    font-size: 2rem;
+}
+
+/* Carousel Section */
+.carousel-section {
+    padding: 50px 0;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    color: #fff;
+}
+
+.carousel-caption h5 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.carousel-caption p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-control-prev-icon:before,
+.carousel-control-next-icon:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-size: cover;
+}
+
+.carousel-control-prev-icon:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M7.5 0l-3.5 3.5 3.5 3.5' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon:before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M0 0l3.5 3.5L0 7' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-indicators li {
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin: 0 10px;
+}
+
+.carousel-indicators .active {
+    background-color: #fff;
+}
+
+.pro:hover {
+    transform: scale(1.03);
+}
