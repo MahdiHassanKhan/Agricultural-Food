@@ -1,171 +1,180 @@
-// Define products
-const products = [
-    {
-        id: 1,
-        name: 'Product 1',
-        price: 10.00
-    },
-    {
-        id: 2,
-        name: 'Product 2',
-        price: 15.00
-    },
-    {
-        id: 3,
-        name: 'Product 3',
-        price: 20.00
-    }
-];
+let ShoppingCart = document.getElementById("shopping-cart");
+let label = document.getElementById("label");
 
-// Define cart variable
-let cart = [];
+/**
+ * ! Basket to hold all the selected items
+ * ? the getItem part is retrieving data from the local storage
+ * ? if local storage is blank, basket becomes an empty array
+ */
 
-// Define functions
-function getProductById(id) {
-    return products.find(product => product.id === id);
-}
+let basket = JSON.parse(localStorage.getItem("data")) || [];
 
-function displayCart() {
-    const cartItems = document.querySelector('#cart-items');
-    let html = '';
-    cart.forEach(item => {
-        const product = getProductById(item.id);
-        html += `
-        <tr>
-          <td>${product.name}</td>
-          <td>$${product.price.toFixed(2)}</td>
-        <td>
-          <button class="btn btn-secondary decrement-from-cart" data-id="${product.id}">-</button>
-          <span class="mx-2">${item.quantity}</span>
-          <button class="btn btn-primary add-to-cart" data-id="${product.id}">+</button>
-        </td>
-          <td>$${(item.quantity * product.price).toFixed(2)}</td>
-          <td><button class="btn btn-danger remove-from-cart" data-id="${product.id}">Remove</button></td>
-        </tr>
+/**
+ * ! To calculate total amount of selected Items
+ */
+
+let calculation = () => {
+  let cartIcon = document.getElementById("cartAmount");
+  cartIcon.innerHTML = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
+};
+
+calculation();
+
+/**
+ * ! Generates the Cart Page with product cards composed of
+ * ! images, title, price, buttons, & Total price
+ * ? When basket is blank -> show's Cart is Empty
+ */
+
+let generateCartItems = () => {
+  if (basket.length !== 0) {
+    return (ShoppingCart.innerHTML = basket
+      .map((x) => {
+        let { id, item } = x;
+        let search = shopItemsData.find((x) => x.id === id) || [];
+        let { img, price, name } = search;
+        return `
+      <div class="cart-item">
+        <img width="100" src=${img} alt="" />
+
+        <div class="details">
+        
+          <div class="title-price-x">
+            <h4 class="title-price">
+              <p>${name}</p>
+              <p class="cart-item-price">$ ${price}</p>
+            </h4>
+            <i onclick="removeItem(${id})" class="bi bi-x-lg"></i>
+          </div>
+
+          <div class="cart-buttons">
+            <div class="buttons">
+              <i onclick="decrement(${id})" class="bi bi-dash-lg"></i>
+              <div id=${id} class="quantity">${item}</div>
+              <i onclick="increment(${id})" class="bi bi-plus-lg"></i>
+            </div>
+          </div>
+
+          <h3>$ ${item * price}</h3>
+        
+        </div>
+      </div>
       `;
+      })
+      .join(""));
+  } else {
+    ShoppingCart.innerHTML = "";
+    label.innerHTML = `
+    <h2>Cart is Empty</h2>
+    <a href="index.html">
+      <button class="HomeBtn">Back to Home</button>
+    </a>
+    `;
+  }
+};
+
+generateCartItems();
+
+/**
+ * ! used to increase the selected product item quantity by 1
+ */
+
+let increment = (id) => {
+  let selectedItem = id;
+  let search = basket.find((x) => x.id === selectedItem.id);
+
+  if (search === undefined) {
+    basket.push({
+      id: selectedItem.id,
+      item: 1,
     });
-    cartItems.innerHTML = html;
+  } else {
+    search.item += 1;
+  }
 
-    // Remove existing event listeners before attaching new ones
-    const removeButtons = document.querySelectorAll('.remove-from-cart');
-    removeButtons.forEach(button => {
-        button.removeEventListener('click', removeFromCart);
-        button.addEventListener('click', removeFromCart);
-    });
+  generateCartItems();
+  update(selectedItem.id);
+  localStorage.setItem("data", JSON.stringify(basket));
+};
 
-    attachRemoveEventListeners();
-    attachDecrementEventListeners();
-    updateCartTotal();
-}
+/**
+ * ! used to decrease the selected product item quantity by 1
+ */
 
+let decrement = (id) => {
+  let selectedItem = id;
+  let search = basket.find((x) => x.id === selectedItem.id);
 
-function updateCartTotal() {
-    const cartTotal = document.querySelector('#cart-total');
-    const total = cart.reduce((acc, item) => {
-        const product = getProductById(item.id);
-        return acc + (item.quantity * product.price);
-    }, 0);
-    cartTotal.innerHTML = `$${total.toFixed(2)}`;
-}
+  if (search === undefined) return;
+  else if (search.item === 0) return;
+  else {
+    search.item -= 1;
+  }
 
-function removeFromCart(event) {
-    const productId = parseInt(event.target.dataset.id);
-    const cartItemIndex = cart.findIndex(item => item.id === productId);
-    if (cartItemIndex !== -1) {
-        cart.splice(cartItemIndex, 1);
-    }
-    displayCart();
-}
+  update(selectedItem.id);
+  basket = basket.filter((x) => x.item !== 0);
+  generateCartItems();
+  localStorage.setItem("data", JSON.stringify(basket));
+};
 
-function decrementFromCart(event) {
-    const productId = parseInt(event.target.dataset.id);
-    const cartItemIndex = cart.findIndex(item => item.id === productId);
-    if (cartItemIndex !== -1) {
-        const cartItem = cart[cartItemIndex];
-        if (cartItem.quantity > 1) {
-            cartItem.quantity--;
-        } else {
-            cart.splice(cartItemIndex, 1);
-        }
-    }
-    updateCartTable();
-}
+/**
+ * ! To update the digits of picked items on each item card
+ */
 
+let update = (id) => {
+  let search = basket.find((x) => x.id === id);
+  document.getElementById(id).innerHTML = search.item;
+  calculation();
+  TotalAmount();
+};
 
-// Attach the event listener for the remove button
-function attachRemoveEventListeners() {
-    const removeButtons = document.querySelectorAll('.remove-from-cart');
-    removeButtons.forEach(button => {
-        button.addEventListener('click', removeFromCart);
-    });
-}
+/**
+ * ! Used to remove 1 selected product card from basket
+ * ! using the X [cross] button
+ */
 
-function attachDecrementEventListeners() {
-    const decrementButtons = document.querySelectorAll('.decrement-from-cart');
-    decrementButtons.forEach(button => {
-        button.addEventListener('click', decrementFromCart);
-    });
-}
+let removeItem = (id) => {
+  let selectedItem = id;
+  basket = basket.filter((x) => x.id !== selectedItem.id);
+  calculation();
+  generateCartItems();
+  TotalAmount();
+  localStorage.setItem("data", JSON.stringify(basket));
+};
 
+/**
+ * ! Used to calculate total amount of the selected Products
+ * ! with specific quantity
+ * ? When basket is blank, it will show nothing
+ */
 
-// Add event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Display cart
-    displayCart();
+let TotalAmount = () => {
+  if (basket.length !== 0) {
+    let amount = basket
+      .map((x) => {
+        let { id, item } = x;
+        let filterData = shopItemsData.find((x) => x.id === id);
+        return filterData.price * item;
+      })
+      .reduce((x, y) => x + y, 0);
 
-    // Add to cart
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = parseInt(button.dataset.id);
-            const cartItem = cart.find(item => item.id === productId);
-            if (cartItem) {
-                cartItem.quantity++;
-            } else {
-                cart.push({ id: productId, quantity: 1 });
-            }
-            displayCart();
-        });
-    });
+    return (label.innerHTML = `
+    <h2>Total Bill : $ ${amount}</h2>
+    <button class="checkout">Checkout</button>
+    <button onclick="clearCart()" class="removeAll">Clear Cart</button>
+    `);
+  } else return;
+};
 
-    // Attach the event listener for the remove button
-    attachRemoveEventListeners();
-    attachDecrementEventListeners();
-});
+TotalAmount();
 
+/**
+ * ! Used to clear cart, and remove everything from local storage
+ */
 
-// // Add event listeners
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Display cart
-//     displayCart();
-
-//     // Add to cart
-//     const addToCartButtons = document.querySelectorAll('.add-to-cart');
-//     addToCartButtons.forEach(button => {
-//         button.addEventListener('click', () => {
-//             const productId = parseInt(button.dataset.id);
-//             const cartItem = cart.find(item => item.id === productId);
-//             if (cartItem) {
-//                 cartItem.quantity++;
-//             } else {
-//                 cart.push({ id: productId, quantity: 1 });
-//             }
-//             localStorage.setItem('cart', JSON.stringify(cart));
-//             displayCart();
-//         });
-//     });
-
-//     // Remove from cart
-//     const removeFromCartButtons = document.querySelectorAll('.remove-from-cart');
-//     removeFromCartButtons.forEach(button => {
-//         button.addEventListener('click', () => {
-//             const productId = parseInt(button.dataset.id);
-//             const cartItemIndex = cart.findIndex(item => item.id === productId);
-//             if (cartItemIndex !== -1) {
-//                 cart.splice(cartItemIndex, 1);
-//             }
-//             localStorage.setItem('cart', JSON.stringify(cart));
-//             displayCart();
-//         });
-//     });
-// });
+let clearCart = () => {
+  basket = [];
+  generateCartItems();
+  calculation();
+  localStorage.setItem("data", JSON.stringify(basket));
+};
