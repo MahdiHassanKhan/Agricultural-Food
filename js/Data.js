@@ -164,7 +164,7 @@ let shopItemsData = [
     },
     {
         id: "podpijewyiohbjmar",
-        name: "Thai Black Ginger Capsules",
+        name: "Black Ginger Capsules",
         price: 435,
         desc: "Lorem ipsum dolor sit amet consectetur adipisicing.",
         img: "media/images/tbg-capsule.jpg",
