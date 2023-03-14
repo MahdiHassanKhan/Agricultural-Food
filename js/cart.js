@@ -44,7 +44,7 @@ let generateCartItems = () => {
               <p>${name}</p>
               <p class="cart-item-price">$ ${price}</p>
             </h4>
-            <i onclick="removeItem(${id})" class="bi bi-x-lg"></i>
+            <i onclick="removeItem(${id})" class="bi bi-x-circle-fill"></i>
           </div>
 
           <div class="cart-buttons">

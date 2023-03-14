@@ -439,12 +439,12 @@ main button[type="submit"]:hover {
     background-color: red;
 }
 
-.bi-x-lg {
+.bi-x-circle-fill {
     color: red;
     font-weight: bolder
 }
 
-.bi-x-lg:hover {
+.bi-x-circle-fill:hover {
     cursor: pointer;
 }
 
@@ -454,7 +454,7 @@ main button[type="submit"]:hover {
 
 .shopping-cart {
     display: grid;
-    grid-template-columns: repeat(1, 400px);
+    grid-template-columns: repeat(1, 450px);
     justify-content: center;
     gap: 15px;
 }
@@ -470,10 +470,10 @@ main button[type="submit"]:hover {
 }
 
 .title-price-x {
-    width: 350px;
+    width: 360px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
     /* border: 2px solid red; */
 }
 
